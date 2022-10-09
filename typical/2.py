@@ -1,19 +1,26 @@
-import numpy as np
+import itertools
 
-H, W = map(int, input().split())
-A=[]
-for i in range(H):
-    A.append(list(map(int, input().split())))
+N = int(input())
 
-rowsum = [sum(row) for row in A]
-colsum = [sum(col) for col in zip(*A)]
-
-ans=np.array(A)
-ans*=-1
-for i in range(H):
-    ans[i]+=rowsum[i]
-for i in range(W):
-    ans.T[i]+=colsum[i]
-    
-for ary in ans:
-    print(*ary)
+if N%2==0:
+    l = []
+    for i in range(N):
+        l.append(i)
+    for v in itertools.combinations(l, int(N/2)):
+        sum=0
+        isOK = True
+        for i in range(N):
+            if i in v:
+                sum+=1
+            else:
+                sum-=1
+            if sum<0:
+                isOK = False
+                break
+        if isOK == True:
+            for i in range(N):
+                if i in v:
+                    print("(", sep="", end="")
+                else:
+                    print(")", sep="", end="")
+            print("")
