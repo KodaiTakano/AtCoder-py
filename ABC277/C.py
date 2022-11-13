@@ -1,53 +1,49 @@
-from queue import Queue
-from bisect import bisect_left, bisect_right, bisect
+from itertools import chain
 import sys
 
-# 入力
 N = int(input())
-A=[]
-B=[]
+
 AB=[]
 for _ in range(N):
-    a = list(map(int, input().split()))
-    A.append(a[0])
-    B.append(a[1])
-    AB.append(a)
-A=sorted(A)
-B=sorted(B)
-AB=sorted(AB)
-print(AB)
-
-set_AB=list(set(A+B))
-if set_AB[0]!=1:
-    print(0)
+    a, b = map(int, input().split())
+    AB.append([a, b])
+flattenAB=sorted(set(list(chain.from_iterable(AB))))
+if flattenAB[0]!=1:
+    print(1)
     sys.exit()
-idx=0
-dic_ab={}
-for i in set_AB:
-    dic_ab[i]=idx
-    idx+=1
-for i in range(N):
-    AB[i][0]=dic_ab[AB[i][0]]
-    AB[i][1]=dic_ab[AB[i][1]]
-print(AB)
 
-n = len(dic_ab)
-G=[[] for _ in range(n)]
-for i in range(2*n):
+dictAB={v:i for i, v in enumerate(flattenAB)}
+for i in range(N):
+    AB[i][0]=dictAB[AB[i][0]]
+    AB[i][1]=dictAB[AB[i][1]]
+
+# print(AB)
+
+from queue import Queue
+
+# 入力
+M=N
+N=len(dictAB)
+G = [[] for i in range(N)]
+for i in range(M):
+
     # 頂点 A から頂点 B への辺を張る
     G[AB[i][0]].append(AB[i][1])
     G[AB[i][1]].append(AB[i][0])
 
+# 各頂点が何手目に探索されたか
+# -1 は「まだ探索されていない」ことを表す
+dist = [-1] * N
 
 # todo リストを表すキュー
 que = Queue()
 
-# 頂点 1 を始点とする
-dist=[-1]*n
-dist[0]=0
+# 頂点 0 を始点とする
+dist[0] = 0
 que.put(0)
 
-ans = 1
+ans=0
+# キューが空になるまで探索する
 while not que.empty():
     # キューから頂点を取り出す
     v = que.get()
@@ -58,9 +54,9 @@ while not que.empty():
         if dist[next_v] != -1:
             continue
         if ans < next_v:
-            ans = next_v
+            ans=next_v
         # 頂点 next_v を探索する
         dist[next_v] = dist[v] + 1
         que.put(next_v)
-print(ans)
-        
+ans = [k for k, v in dictAB.items() if v==ans]
+print(ans[0])
