@@ -3,13 +3,12 @@ X = [list(map(int, input().split())) for _ in range(H)]
 
 sum=[[0]*(W+1)]
 for i in range(H):
-    A=[0]
+    s=[0]
     crr=0
-    # print(sum)
     for j in range(W):
         crr+=X[i][j]
-        A.append(crr+sum[i][j+1])
-    sum.append(A)
+        s.append(crr+sum[i][j+1])
+    sum.append(s)
 # print(sum)
 
 Q = int(input())
