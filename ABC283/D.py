@@ -1,45 +1,40 @@
-# from collections import defaultdict
-# import sys
-
-# S = list(input())
-
-# d=defaultdict(int)
-# l=[]
-# s=[]
-# for i in range(len(S)):
-#     if S[i]==")":
-#         l.append(s)
-#         s=[]
-#         for i in range(len(l[len(l)-1])):
-#             # print("----", l[len(l)-1][i])
-#             d[l[len(l)-1][i]]=0
-#         l.pop()
-#     elif S[i]=="(":
-#         l.append(s)
-#         s=[]
-#     # 文字だったとき
-#     else:
-#         if d[S[i]]==1:
-#             print("No")
-#             sys.exit()
-#         d[S[i]]=1
-#         s.append(S[i])
-#     print(d)
-#     print(l)
-#     print(s)
-# print("Yes")
-
+from collections import deque
 import sys
 
 S = list(input())
 
-l=set()
+l=[[]]
+ball=set()
 for i in range(len(S)):
     if S[i]==")":
-        l.clear()
-    elif S[i]!="(":
-        if S[i] in l:
+        for x in l[len(l)-1]:
+            ball.remove(x)
+        l.pop()
+    elif S[i]=="(":
+        l.append([])
+    # 文字だったとき
+    else:
+        if S[i] in ball:
             print("No")
             sys.exit()
-        l.add(S[i])
+        ball.add(S[i])
+        l[len(l)-1].append(S[i])
+    # print(l)
+    # print(ball)
 print("Yes")
+
+# 嘘解法
+# import sys
+
+# S = list(input())
+
+# l=set()
+# for i in range(len(S)):
+#     if S[i]==")":
+#         l.clear()
+#     elif S[i]!="(":
+#         if S[i] in l:
+#             print("No")
+#             sys.exit()
+#         l.add(S[i])
+# print("Yes")
