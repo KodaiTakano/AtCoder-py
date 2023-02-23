@@ -3,15 +3,13 @@ from sys import exit
 N, K = map(int, input().split())
 A = list(map(int, input().split()))
 
-A = list(set(A))
+A = set(A)
 # print(A)
-k=0
+
+ans = 0
 for i in range(K):
-    if i==len(A):
-        break
-    if A[i]!=k:
-        print(k)
-        exit()
+    if i in A:
+        ans+=1
     else:
-        k+=1
-print(k)
+        break
+print(ans)
