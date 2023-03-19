@@ -41,6 +41,7 @@ class UnionFind():
     def size(self, x):
         return self.siz[self.root(x)]
     
+    # x を含む根付き木の辺の数を求める
     def len(self, x):
         return self.le[self.root(x)]
 
@@ -52,10 +53,8 @@ for i in range(M):
     u, v = map(int, input().split())
     UF.unite(u-1, v-1)
 
-
-    
 for i in range(M):
-    # print(UF.len(i))
+    print(UF.len(i))
     if UF.size(i) != UF.len(i):
         print("No")
         exit()
