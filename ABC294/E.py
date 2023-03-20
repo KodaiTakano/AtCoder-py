@@ -14,16 +14,52 @@ for i in range(N2):
     v2.append(N)
     l2.append(M)
 
-s1=[0]
-sum=0
-for i in range(N1):
-    sum+=l1[i]
-    s1.append(sum)
-s2=[0]
-sum=0
-for i in range(N2):
-    sum+=l2[i]
-    s2.append(sum)
-print(*s1)
-print(*s2)
+# li=l1[0]
+# lj=l2[0]
+# i=0
+# j=0
+# ans=0
+# while(True):
+#     if li==lj:
+#         if v1[i]==v2[j]:
+#             ans+=min(l1[i], l2[j])
+#         i+=1
+#         j+=1
+#         if i>=N1 or j>=N2:
+#             break
+#         li+=l1[i]
+#         lj+=l2[j]
+#     elif li<lj:
+#         if v1[i]==v2[j]:
+#             ans+=l1[i]
+#         i+=1
+#         if i>=N1 or j>=N2:
+#             break
+#         li+=l1[i]
+#     else:
+#         if v1[i]==v2[j]:
+#             ans+=l2[j]
+#         j+=1
+#         if i>=N1 or j>=N2:
+#             break
+#         lj+=l2[j]
+#     # print(i, j)
+#     # print(li, lj)
+#     # print(v1[i], v2[j])
+#     # print(l1[i])
+#     # print(ans)
+# print(ans)
 
+ans=0
+i, j=0, 0
+p, q=0, 0
+while i<N1 and j<N2:
+    if v1[i]==v2[j]:
+        ans+=min(p+l1[i], q+l2[j])-max(p, q)
+    if p+l1[i]<q+l2[j]:
+        p+=l1[i]
+        i+=1
+    else:
+        q+=l2[j]
+        j+=1
+print(ans)
