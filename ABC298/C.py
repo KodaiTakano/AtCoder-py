@@ -11,4 +11,4 @@ for _ in range(Q):
     elif A[0]==2:
         print(*sorted(box[A[1]]))
     else:
-        print(*num[A[1]])
+        print(*sorted(num[A[1]]))
