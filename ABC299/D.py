@@ -45,4 +45,4 @@ def binary_search(ng, ok):
     return ng
 
 N = int(input())
-print("!", binary_search(-1, N))
+print("!", binary_search(0, N))
