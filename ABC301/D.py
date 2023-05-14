@@ -12,50 +12,36 @@ def base_n(num_10, n):
 def base_10(num_n, n):
     num_10 = 0
     for s in num_n:
-        if s==2:
-            continue
+        if s==-1:
+            s=0
         num_10 *= n
         num_10 += int(s)
     return num_10
 
-from sys import exit
-
 S = list(input())
 N = int(input())
 
-ansl=[2]*len(S)
+ans=[-1]*len(S)
 for i in range(len(S)):
-    if S[i]=="1":
-        ansl[i]=1
     if S[i]=="0":
-        ansl[i]=0
+        ans[i]=0
+    if S[i]=="1":
+        ans[i]=1
 
-N-=base_10(ansl, 2)
-if N<0:
+# print(base_10(ans, 2))
+
+from copy import deepcopy
+
+for i in range(len(ans)):
+    if ans[i]==-1:
+        tans=deepcopy(ans)
+        tans[i]=1
+        # print(tans)
+        # print(base_10(tans, 2))
+        if base_10(tans, 2)<=N:
+            ans[i]=1
+# print(ans)
+if base_10(ans, 2)<=N:
+    print(base_10(ans, 2))
+else:
     print(-1)
-    exit()
-N2=list(map(int, list(base_n(N, 2))))
-
-# print(ansl)
-# print(N2)
-
-if len(ansl)<len(N2):
-    for _ in range(len(N2)-len(ansl)):
-        ansl.insert(0, 0)
-if len(ansl)>len(N2):
-    for _ in range(len(ansl)-len(N2)):
-        N2.insert(0, 0)
-
-for i in range(len(ansl)):
-    if ansl[i]==2:
-        if N2==1:
-            ansl[i]=1
-        else:
-            ansl[i]=0
-    if ansl[i]==0 and N2[i]==1 and i!=len(ansl)-1:
-        for j in range(i+1, len(ansl)):
-            if ansl[j]==2:
-                ansl[j]=1
-        break
-
-print(base_10(ansl, 2))
