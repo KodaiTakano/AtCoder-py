@@ -2,31 +2,51 @@ N, M = map(int, input().split())
 A = sorted(list(map(int, input().split())))
 B = sorted(list(map(int, input().split())))
 
-from collections import defaultdict
-AD=defaultdict(int)
-for a in A:
-    AD[a]+=1
-BD=defaultdict(int)
-for b in B:
-    BD[b]+=1
-CD=defaultdict(int)
-for a in A:
-    CD[a]+=1
-for b in B:
-    CD[b]+=1
-CD = sorted(CD.items())
-# print(CD)
+def is_ok(mid):
+    """二分探索中の判定
 
-from sys import exit
+    Parameters
+    ----------
+    mid : int
 
-AN=0
-BN=M
-for k, v in CD:
-    AN+=AD[k]
-    BN-=BD[k]
+    Returns
+    -------
+    result : bool
+    答えが左にある(ok=midにしたい)ときはTrue
+    答えが右にある(ng=midにしたい)ときはFalse
+    """
+    AN=0
+    for a in A:
+        if a<=mid:
+            AN+=1
+    BN=0
+    for b in B:
+        if b>=mid:
+            BN+=1
     if AN>=BN:
-        if AD[k]==0:
-            print(k+1)
+        return True
+    else:
+        return False
+
+def binary_search(ng, ok):
+    """二分探索
+
+    Parameters
+    ----------
+    ng : int 初期値は(最小値-1)
+    ok : int 初期値は(最大値+1)
+
+    Returns
+    -------
+    ok : int
+    """
+    while abs(ok - ng) > 1:
+        mid = (ok + ng) // 2
+        if is_ok(mid):
+            ok = mid
         else:
-            print(k)
-        exit()
+            ng = mid
+
+    return ok
+
+print(binary_search(-1, max(max(B), max(A))+1))
