@@ -1,0 +1,43 @@
+import heapq
+
+# 入力
+N, M = map(int, input().split())
+G = [[] for _ in range(N)]
+for i in range(M):
+    A, B, C, D = map(int, input().split())
+    C*=1000000
+    if D:
+        C-=1
+    G[A-1].append((B-1, C))
+    G[B-1].append((A-1, C))
+
+# 初期化
+visited = [False] * N
+dist = [float("inf")] * N
+
+#　頂点0を始点とする
+dist[0] = 0
+# 最小の距離を取り出したいため、[(dist, v)]の形
+pq = [(0, 0)]
+
+# ダイクストラ法
+while pq:
+    # 未処理の中で最小の距離を持つ頂点を取り出す
+    d, u = heapq.heappop(pq)
+    # 確定済みの場合
+    if visited[u]==True:
+        continue
+
+    # 訪問済みにする
+    visited[u] = True
+
+    # uから到達可能な頂点の距離を更新する
+    for next_v, weight in G[u]:
+        # 現在の距離
+        new_dist = dist[u] + weight
+        # 現在の距離の方が小さいとき
+        if new_dist < dist[next_v]:
+            dist[next_v] = new_dist
+            heapq.heappush(pq, (new_dist, next_v))
+
+print(int(dist[N-1]/1000000)+1, (int(dist[N-1]/1000000)+1)*1000000-dist[N-1])
